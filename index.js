@@ -21,21 +21,19 @@ const transporter = nodemailer.createTransport({
 app.post("/send", async (req, res) => {
   const { to, subject, text } = req.body;
 
-  const mailOptions = {
-    from: `Mail API <${process.env.USER_EMAIL}>`,
-    to,
-    subject,
-    text,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).send("Email sent successfully!");
+    await transporter.sendMail({
+      from: `Mail API <${process.env.USER_EMAIL}>`,
+      to,
+      subject,
+      text,
+    });
+    res.status(200).send("✅ Email sent successfully!");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error sending email");
+    res.status(500).send("❌ Error sending email");
   }
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
